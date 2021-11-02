@@ -6,10 +6,10 @@
 
 char	*get_next_line(int fd);
 
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(char *s, int c);
-char	*ft_substr(char *s, int start, int len);
 char	*ft_strdup(char *src);
+char	*ft_strchr(char *s, int c);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_substr(char *s, int start, int len);
 int		ft_strlcpy(char *dst, char *src, int dstsize);
 
 int		ft_strlen(char *s);
