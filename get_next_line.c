@@ -1,83 +1,59 @@
-#include  "get_next_line.h"
+#include "get_next_line.h"
 
-int	ft_strlen(char *s)
+void	save_free(char **str)
 {
-	size_t	size;
-
-	size = 0;
-	while (s[size] != '\0')
-		size++;
-	return (size);
+	if (str && *str)
+	{
+		free(*str);
+		*str = NULL;
+	}
 }
 
-char	*ft_next_l(char **buffer_save, char **l)
+int	s_buff_check(char **save_buffer, char **s_word, char **tmp)
 {
-	char	*new;
-	int		i;
-
-	i = 0;
-	while ((*(*buffer_save + i) != '\n') && (*(buffer_save + i) != '\0'))
-		i++;
-	if (*(*buffer_save + i) == '\0')
+	*s_word = ft_strchr(*save_buffer, '\n');
+	if (s_word)
 	{
-		i++;
-		*line = ft_substr(buffer_save, 0, i);
-		new = ft_strdup(*buffer_save + i);
+		*tmp = ft_strlcpy_gnl(*save_buffer);
+		s_word++;
+		*save_buffer = ft_strdup(*s_word);
+		return (1);
 	}
 	else
-		*l = ft_strdup(*buffer_save);
-	free(*buffer_save);
-	*buffer_save = NULL;
-	return (new);
+		*tmp = ft_strdup(*save_buffer);
+	return (0);
 }
 
-int	ft_save_file(int fd, char **buff, char **buffer_save, char **l)
+char	*new_buff(char *save_buffer, char *s_word)
 {
-	char	*tmp;
-	int		i;
-
-	i = 1;
-	while (!ft_strchr(*buffer_save, '\n') && i)
-	{
-		i = read(fd, *buff, BUFFER_SIZE);
-		(*buff)[i] = '\0';
-		tmp = *buffer_save;
-		buffer_save = ft_strjoin(tmp, *buff);
-		free(tmp);
-	}
-	free(*buff);
-	*buff = NULL;
-	buffer_save = ft_next_l(buffer_save, l);
-	if (*line == '\0')
-	{
-		free(*l);
-		*l = (NULL);
-	}
-	return (i);
+	save_free(&save_buffer);
+	save_buffer = ft_strdup(s_word);
+	return (save_buffer);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer_save;
-	char		*buff;
-	char		*l;
-	int			i;
+	static char	*save_buffer = NULL;
+	char		buff[BUFFER_SIZE + 1];
+	char		*s_word;
+	char		*tmp;
+	int			nom;
 
-	buffer_save = NULL;
-	if (ft < 0 || BUFFER_SIZE < 0)
+	if (!fd || BUFFER_SIZE < 1 || !buff)
 		return (NULL);
-	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buff)
-		return (NULL);
-	if (read(fd, buff, 0) < 0)
+	tmp = NULL;
+	nom = read(fd, buff, BUFFER_SIZE);
+	if (!(s_buff_check(&save_buffer, &s_word, &tmp)))
 	{
-		free(buff);
-		return (NULL);
+		while (nom > 0 && !s_word)
+		{
+			buff[nom] = '\0';
+			s_word = ft_strchr(buff, '\n');
+			if (s_word++)
+				save_buffer = new_buff(save_buffer, s_word);
+			tmp = ft_strjoin(tmp, buff);
+			nom = read(fd, buff, BUFFER_SIZE);
+		}
 	}
-	if (buffer_save)
-		buffer_save = ft_strdup("");
-	i = ft_save_file(fd, &buff, &buffer_save, &l);
-	if (i == 0 && !l)
-		return (NULL);
-	return (l);
+	return (tmp);
 }
