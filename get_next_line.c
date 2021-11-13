@@ -1,12 +1,10 @@
 #include "get_next_line.h"
 
-char	*ft_read_str(int fd, char str)
+char	*ft_read_str(int fd, char *str)
 {
 	char	buff[BUFFER_SIZE + 1];
 	int		nom;
 
-	if (!buff)
-		return (NULL);
 	nom = 1;
 	while ((!ft_strchr(str, '\n')) && nom != 0)
 	{
@@ -26,7 +24,7 @@ char	*ft_read_str(int fd, char str)
 char	*get_next_line(int fd)
 {
 	static char	*str;
-	char		line;
+	char		*line;
 
 	if (!fd || BUFFER_SIZE < 1)
 		return (NULL);
