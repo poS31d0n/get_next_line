@@ -2,16 +2,19 @@
 
 char	*ft_read_str(int fd, char *str)
 {
-	char	buff[BUFFER_SIZE + 1];
+	char	*buff;
 	int		nom;
 
+	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buff)
+		return (NULL);
 	nom = 1;
-	while ((!ft_strchr(str, '\n')) && nom != 0)
+	while ((!ft_check_n(str)) && nom)
 	{
 		nom = read(fd, buff, BUFFER_SIZE);
 		if (nom == -1)
 		{
-			free(buff);
+			free (buff);
 			return (NULL);
 		}
 		buff[nom] = '\0';
