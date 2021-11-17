@@ -9,9 +9,9 @@ char	*ft_read_str(int fd, char *str)
 	if (!buff)
 		return (NULL);
 	nom = 1;
-	while ((!ft_check_n(str)) && nom)
+	while (!ft_check_n(str) && nom)
 	{
-		nom = read(fd, buff, BUFFER_SIZE);
+		nom = read(fd, buff, 1);
 		if (nom == -1)
 		{
 			free (buff);

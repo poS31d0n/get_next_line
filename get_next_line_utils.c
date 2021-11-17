@@ -35,7 +35,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = (char *)malloc(sizeof(char) * 1);
-		s1[0] = '\n';
+		s1[0] = '\0';
 	}
 	if (!s1 || !s2)
 		return (NULL);
@@ -98,7 +98,7 @@ char	*ft_new_str(char *str)
 		free (str);
 		return (NULL);
 	}
-	line = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	line = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 2));
 	if (!line)
 		return (NULL);
 	i++;
