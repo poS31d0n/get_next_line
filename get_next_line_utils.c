@@ -98,7 +98,7 @@ char	*ft_new_str(char *str)
 		free (str);
 		return (NULL);
 	}
-	line = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 2));
+	line = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 1));
 	if (!line)
 		return (NULL);
 	i++;

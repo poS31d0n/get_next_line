@@ -29,7 +29,7 @@ char	*get_next_line(int fd)
 	static char	*str;
 	char		*line;
 
-	if (!fd || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = ft_read_str(fd, str);
 	if (!str)
