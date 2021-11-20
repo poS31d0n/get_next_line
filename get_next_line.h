@@ -6,11 +6,11 @@
 
 char	*get_next_line(int fd);
 char	*ft_read_str(int fd, char *str);
-
-char	*ft_strjoin(char *s1, char *s2);
 char	*ft_new_line(char *str);
 char	*ft_new_str(char *str);
+
 size_t	ft_strlen(const char *str);
+char	*ft_strjoin(char *s1, char *s2);
 int		ft_check_n(const char *str);
 
 # ifndef BUFFER_SIZE
